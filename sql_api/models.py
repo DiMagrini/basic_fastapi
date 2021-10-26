@@ -12,7 +12,8 @@ class User(Base):
     hashed_password = Column(String)
     active = Column(Boolean, default=True)
 
-    items = relationship("Item", back_populates="owner")
+    items = relationship("Item", back_populates="owner")#a coluna 'item' é preenchida 
+    #por todos os itens com com a chave id do usuario a qual ele pertence.
 
 class Item(Base):
     __tablename__ = "items"
@@ -24,4 +25,4 @@ class Item(Base):
     quantity = Column(Integer, index= True)
     owner_id = Column(Integer, ForeignKey("users.id"))
 
-    owner = relationship("User", back_populates="items")
+    owner = relationship("User", back_populates="items")#aqui segue a mesma logica.

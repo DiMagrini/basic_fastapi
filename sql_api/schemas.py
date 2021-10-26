@@ -29,7 +29,7 @@ class UserCreate(UserBase):
     password: str #deixamos informações sensiveis, como senhas, apenas na criação da coluna do usuario.
  #dessa forma podemos exibir as informações do usuario sem necesssariamente comprometer essas informações sensiveis
 
-class User(UserBase):
+class User(UserBase):#ao usar o schema User podemos exibir as informações dele sem comprometer a senha
     id: int
     active: bool
     items: List[Item] = []

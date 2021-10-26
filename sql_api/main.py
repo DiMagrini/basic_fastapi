@@ -44,7 +44,7 @@ def create_item(user_name: str, item: schemas.ItemCreate, db: Session = Depends(
 
 #read
 @app.get("/users/", response_model=list[schemas.User])
-def get_users(skip: int=0, limit: int=0, db: Session = Depends(get_db)):
+def get_users(skip: int=0, limit: int=100, db: Session = Depends(get_db)):
     
     return crud.read_all(db, models.User, skip=skip, limit=limit)
 
@@ -58,7 +58,7 @@ def get_user(user_name: str, db: Session = Depends(get_db)):
     raise HTTPException(status_code=400, detail="User not found")
 
 @app.get("/items/", response_model=list[schemas.Item])
-def get_itens(skip: int=0, limit: int=0, db: Session = Depends(get_db)):
+def get_itens(skip: int=0, limit: int=100, db: Session = Depends(get_db)):
     
     return crud.read_all(db, models.Item, skip=skip, limit=limit)
 
@@ -67,8 +67,7 @@ def get_item(item_name: str, user_name: str, db: Session = Depends(get_db)):
     db_user = crud.read_user_by_name(db, username=user_name)
 
     if db_user:
-        user_id = db_user.id
-        db_item = crud.read_item_by_name(db, item_name=item_name, user_id=user_id)
+        db_item = crud.read_item_by_name(db, item_name=item_name, user_id=db_user.id)
         if db_item:
             return db_item
         raise HTTPException(status_code=400, detail="Item not found")
@@ -78,7 +77,7 @@ def get_item(item_name: str, user_name: str, db: Session = Depends(get_db)):
 
 #Update
 @app.put("/user_name/")
-def update_user(User_name: str, password: str, new_username: str, db: Session = Depends(get_db)):
+def update_username(User_name: str, password: str, new_username: str, db: Session = Depends(get_db)):
     db_user = crud.read_user_by_name(db, username=User_name)
 
     if db_user:

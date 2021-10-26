@@ -7,9 +7,11 @@ from . import models, schemas
 def read_all(db: Session, row, skip: int = 0, limit: int = 100):
     return db.query(row).offset(skip).limit(limit).all()
 
+
 #users crud
 def create_user(db: Session, user: schemas.UserCreate):
-    fake_hashed_password = user.password + "notreallyhashed"
+    fake_hashed_password = user.password + "notreallyhashed"#vc tera que usar
+    #uma criptografia de sua preferencia
 
     db_user = models.User(username=user.username, 
     hashed_password=fake_hashed_password)
